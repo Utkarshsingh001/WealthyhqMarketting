@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow write access to waitlist collection
+    match /waitlist/{document} {
+      allow write: if true;  // Allow anyone to write
+      allow read: if false;  // Don't allow reading (optional)
+    }
+    
+    // Allow write access to contacts collection
+    match /contacts/{document} {
+      allow write: if true;  // Allow anyone to write
+      allow read: if false;  // Don't allow reading (optional)
+    }
+    
+    // Default rule - deny all other operations
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
