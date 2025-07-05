@@ -22,17 +22,23 @@ function App() {
     const handlePopState = () => {
       const path = window.location.pathname.slice(1) || "home";
       setCurrentPage(path);
+
+      // Scroll to top when using browser back/forward buttons
+      window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     window.addEventListener("popstate", handlePopState);
     return () => window.removeEventListener("popstate", handlePopState);
   }, []);
 
-  // Enhanced setCurrentPage that updates browser history
+  // Enhanced setCurrentPage that updates browser history and scrolls to top
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
     const url = page === "home" ? "/" : `/${page}`;
     window.history.pushState({ page }, "", url);
+
+    // Scroll to top when navigating to a new page
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Scroll to contact form on home page
@@ -72,7 +78,7 @@ function App() {
         setCurrentPage={handlePageChange}
         scrollToContact={scrollToContact}
       />
-      <main>{renderPage()}</main>
+      <main style={{ paddingTop: "10px" }}>{renderPage()}</main>
       <Footer setCurrentPage={handlePageChange} />
     </div>
   );
