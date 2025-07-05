@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -10,6 +10,30 @@ import Footer from "./components/Footer";
 
 function App() {
   const [currentPage, setCurrentPage] = useState("home");
+
+  // Initialize page from URL on component mount
+  useEffect(() => {
+    const path = window.location.pathname.slice(1) || "home";
+    setCurrentPage(path);
+  }, []);
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.slice(1) || "home";
+      setCurrentPage(path);
+    };
+
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
+
+  // Enhanced setCurrentPage that updates browser history
+  const handlePageChange = (page: string) => {
+    setCurrentPage(page);
+    const url = page === "home" ? "/" : `/${page}`;
+    window.history.pushState({ page }, "", url);
+  };
 
   // Scroll to contact form on home page
   const scrollToContact = () => {
@@ -32,7 +56,7 @@ function App() {
           <>
             <Hero />
             <About />
-            <Services setCurrentPage={setCurrentPage} />
+            <Services setCurrentPage={handlePageChange} />
             <WealthCalculator />
             <Team />
             <Contact id="contact-section" />
@@ -45,11 +69,11 @@ function App() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Header
         currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
+        setCurrentPage={handlePageChange}
         scrollToContact={scrollToContact}
       />
       <main>{renderPage()}</main>
-      <Footer />
+      <Footer setCurrentPage={handlePageChange} />
     </div>
   );
 }

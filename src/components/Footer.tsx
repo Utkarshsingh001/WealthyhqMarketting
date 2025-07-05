@@ -9,7 +9,11 @@ import {
   Facebook,
 } from "lucide-react";
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  setCurrentPage: (page: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ setCurrentPage }) => {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -46,44 +50,44 @@ const Footer: React.FC = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                <button
+                  onClick={() => setCurrentPage("about")}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-left w-full"
                 >
                   About Us
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                <button
+                  onClick={() => setCurrentPage("home")}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-left w-full"
                 >
                   Services
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                <button
+                  onClick={() => setCurrentPage("calculator")}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-left w-full"
                 >
                   Calculator
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                <button
+                  onClick={() => setCurrentPage("home")}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-left w-full"
                 >
                   Team
-                </a>
+                </button>
               </li>
               <li>
-                <a
-                  href="#"
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                <button
+                  onClick={() => setCurrentPage("contact")}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 text-left w-full"
                 >
                   Contact
-                </a>
+                </button>
               </li>
               <li>
                 <a
